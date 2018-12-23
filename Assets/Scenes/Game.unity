@@ -261,7 +261,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1082810137}
+  - {fileID: 1582737045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -405,7 +407,7 @@ Canvas:
   m_GameObject: {fileID: 729297521}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -659,6 +661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1082810137}
   - component: {fileID: 1082810136}
+  - component: {fileID: 1082810138}
   m_Layer: 0
   m_Name: starfield
   m_TagString: Untagged
@@ -703,10 +706,10 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5890b544548d0a747989ed8bf330ee8a, type: 3}
   m_Color: {r: 0.2891153, g: 0.518652, b: 0.6886792, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 12, y: 12}
+  m_Size: {x: 24, y: 24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -718,13 +721,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1082810135}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 519420032}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082810138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1082810135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e199f7ae1f4edb4b9a3cfe478554f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1213593333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,8 +1049,8 @@ MonoBehaviour:
           m_StringArgument: Game
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2073048991}
-        m_MethodName: StartLevel
+      - m_Target: {fileID: 1559491808}
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1180,8 +1194,8 @@ MonoBehaviour:
           m_StringArgument: Game
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2073048991}
-        m_MethodName: StartLevel
+      - m_Target: {fileID: 1559491808}
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1227,6 +1241,55 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1397697879}
   m_CullTransparentMesh: 0
+--- !u!1 &1559491806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559491807}
+  - component: {fileID: 1559491808}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1559491807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559491806}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1559491808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559491806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0104bf1bf4f52744bf8e604245f0cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRate: 60
+  cameraWidth: 3
+  activeSkinName: Soyuz
+  planetMassGrowth: 50
+  planetScaleGrowth: 1.5
+  planetSpawnDelay: 1
+  planetPrefab: {fileID: 114117453734090436, guid: 80845012d506bf649ae677e09bc0552b,
+    type: 2}
+  gamePlaying: 0
 --- !u!1 &1560309773
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1560309774
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1272,6 +1335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1582737045}
   - component: {fileID: 1582737044}
+  - component: {fileID: 1582737046}
   m_Layer: 0
   m_Name: starfield2
   m_TagString: Untagged
@@ -1314,12 +1378,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5890b544548d0a747989ed8bf330ee8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc3f26009328acd498abeff8b438825c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 12, y: 12}
+  m_Size: {x: 24, y: 24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1331,13 +1395,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1582737043}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_Father: {fileID: 519420032}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1582737046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1582737043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e199f7ae1f4edb4b9a3cfe478554f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1892351970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1480,10 +1555,10 @@ MonoBehaviour:
   skins:
   - name: Default
     distanceToUnlock: 0
-    rocket: {fileID: 114861519530632126, guid: 81b1aa33113904e49b041ab8e83e4444, type: 2}
+    rocket: {fileID: 114067193910700530, guid: 81b1aa33113904e49b041ab8e83e4444, type: 2}
   - name: Soyuz
     distanceToUnlock: 0
-    rocket: {fileID: 114376824746611388, guid: c5714543ff42d7141bc19a2e9d6a37ba, type: 2}
+    rocket: {fileID: 114444259817639164, guid: c5714543ff42d7141bc19a2e9d6a37ba, type: 2}
 --- !u!4 &1926778086
 Transform:
   m_ObjectHideFlags: 0
@@ -1704,7 +1779,7 @@ MonoBehaviour:
           m_StringArgument: Main Menu
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2073048991}
+      - m_Target: {fileID: 1559491808}
         m_MethodName: DestroyAllPlanets
         m_Mode: 1
         m_Arguments:
@@ -1751,55 +1826,3 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2047365762}
   m_CullTransparentMesh: 0
---- !u!1 &2073048989
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2073048990}
-  - component: {fileID: 2073048991}
-  m_Layer: 0
-  m_Name: Game Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2073048990
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2073048989}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2073048991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2073048989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50e25c98eaabf045874acf1e999b618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetFrameRate: 60
-  cameraWidth: 3
-  levelScrollSpeed: 3
-  rocketSpeed: 3
-  maxRotateSpeed: 45
-  gravityConstant: 10
-  planetMassGrowth: 30
-  planetScaleGrowth: 2
-  planetSpawnGap: 4
-  planetPrefab: {fileID: 114117453734090436, guid: 80845012d506bf649ae677e09bc0552b,
-    type: 2}
-  activeSkinName: Default

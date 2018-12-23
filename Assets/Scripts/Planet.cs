@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour
+public class Planet : Mass
 {
-    public float planetMass;
+    public float lifetime;
     private bool isPressed;
     private int fingerId;
     private SpriteRenderer iconSp;
@@ -15,6 +15,7 @@ public class Planet : MonoBehaviour
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         sprite.color = Color.HSVToRGB(Random.Range(0F, 1F), 0.7F, 1.0F);
         StartCoroutine(FadeIcon(1F));
+        StartCoroutine(DestroyMe(3F, 10F));
     }
 
     private void Awake()
@@ -24,7 +25,7 @@ public class Planet : MonoBehaviour
         iconCo = icon.GetComponent<Collider2D>();
     }
 
-    private void Update()
+    public void UpdatePlanet()
     {
         if (iconCo.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
@@ -68,8 +69,9 @@ public class Planet : MonoBehaviour
 
     public void ChangeMassAndScale(float deltaMass, float deltaScale)
     {
-        planetMass += deltaMass;
+        ChangeMass(deltaMass);
         transform.localScale += (Vector3)Vector2.one * deltaScale;
+        iconSp.transform.localScale = Vector3.one;
     }
 
     private IEnumerator FadeIcon(float period)
@@ -90,5 +92,15 @@ public class Planet : MonoBehaviour
             fadeOut = !fadeOut;
             yield return null;
         }
+    }
+
+    private IEnumerator DestroyMe(float time, float minDist)
+    {
+        do
+        {
+            yield return new WaitForSeconds(time);
+        }
+        while (Vector2.Distance(transform.position, Camera.main.transform.position) < minDist);
+        Destroy(gameObject);
     }
 }

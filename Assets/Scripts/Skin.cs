@@ -5,5 +5,5 @@ public class Skin
 {
     public string name;
     public int distanceToUnlock;
-    public RocketController rocket;
+    public Rocket rocket;
 }

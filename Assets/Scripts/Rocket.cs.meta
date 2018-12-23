@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: e50e25c98eaabf045874acf1e999b618
+guid: 7a123d9cc6bad75429fc8b0b794200fa
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - planetPrefab: {fileID: 114117453734090436, guid: 80845012d506bf649ae677e09bc0552b,
-      type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

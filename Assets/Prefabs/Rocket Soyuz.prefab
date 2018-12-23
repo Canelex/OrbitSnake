@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4659125331547616}
   - component: {fileID: 212208561655142106}
   - component: {fileID: 50435301827916936}
-  - component: {fileID: 114376824746611388}
   - component: {fileID: 70304340604373172}
+  - component: {fileID: 114444259817639164}
   m_Layer: 0
-  m_Name: Rocket 2
+  m_Name: Rocket Soyuz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.1, y: 1}
   m_Direction: 0
---- !u!114 &114376824746611388
+--- !u!114 &114444259817639164
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,9 +117,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171262707946780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b66501518a6af45b5583e5714b2164, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a123d9cc6bad75429fc8b0b794200fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mass: 1
+  rocketSpeed: 3
   explosion: {fileID: 198542417426741876, guid: e51f6d3817cabaa47bf76d63c904ec53,
     type: 2}
 --- !u!198 &198069961580976788
@@ -201,7 +203,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -254,7 +256,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4746,7 +4748,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -412847771
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 374fd99f0ca7f2941af517f40fe85ad9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

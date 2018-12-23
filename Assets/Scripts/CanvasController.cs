@@ -11,18 +11,18 @@ public class CanvasController : MonoBehaviour
     public Text textDistance;
     public Text textScore;
     public Text textScoreBest;
-    private GameController game;
+    private GameManager game;
 
     private void Start()
     {
-        game = FindObjectOfType<GameController>();
+        game = FindObjectOfType<GameManager>();
         MainMenuUI.SetActive(true);
     }
 
     private void Update()
     {
-        textDistance.text = game.GetDistance().ToString("F0");
-        textScore.text = game.GetDistance().ToString("F0");
+        textDistance.text = game.GetScore().ToString("F0");
+        textScore.text = game.GetScore().ToString("F0");
         textScoreBest.text = PlayerPrefs.GetInt("BestScore", 0).ToString("F0");
     }
     
