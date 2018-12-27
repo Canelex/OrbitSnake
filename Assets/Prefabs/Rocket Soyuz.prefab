@@ -122,8 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 1
   rocketSpeed: 3
-  explosion: {fileID: 198542417426741876, guid: e51f6d3817cabaa47bf76d63c904ec53,
+  explosion: {fileID: 198302726636559890, guid: d28656a35228f664db8e77fac5f96ac1,
     type: 2}
+  timeToOrbit: 2
 --- !u!198 &198069961580976788
 ParticleSystem:
   m_ObjectHideFlags: 1

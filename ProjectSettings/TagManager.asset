@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Planet
+  - Rocket
+  - Outline
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - Input
+  - 
   - 
   - 
   - 
@@ -47,6 +49,9 @@ TagManager:
     locked: 0
   - name: Planets
     uniqueID: 3523699121
+    locked: 0
+  - name: Outline
+    uniqueID: 3626011425
     locked: 0
   - name: Rocket
     uniqueID: 3882119525

@@ -5,34 +5,30 @@ using UnityEngine;
 public class Planet : Mass
 {
     public float lifetime;
+    [SerializeField]
+    private SpriteRenderer planetSprite;
+    [SerializeField]
+    private SpriteRenderer outlineSprite;
+    [SerializeField]
+    private Collider2D outlineCollider;
+    [SerializeField]
+    private SpriteRenderer detailsSprite;
+    [SerializeField]
+    private SpriteMask detailsMask;
+    private Color primary;
+    private Color second;
     private bool isPressed;
     private int fingerId;
-    private SpriteRenderer iconSp;
-    private Collider2D iconCo;
-
-    private void Start()
-    {
-        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-        sprite.color = Color.HSVToRGB(Random.Range(0F, 1F), 0.7F, 1.0F);
-        StartCoroutine(FadeIcon(1F));
-        StartCoroutine(DestroyMe(3F, 10F));
-    }
-
-    private void Awake()
-    {
-        GameObject icon = transform.GetChild(0).gameObject;
-        iconSp = icon.GetComponent<SpriteRenderer>();
-        iconCo = icon.GetComponent<Collider2D>();
-    }
 
     public void UpdatePlanet()
     {
-        if (iconCo.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        // TODO: Delete this part
+        if (outlineCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             if (Input.GetMouseButtonDown(0))
             {
                 isPressed = true;
-                iconSp.enabled = false;
+                outlineSprite.enabled = false;
             }
         }
 
@@ -51,11 +47,11 @@ public class Planet : Mass
             {
                 if (touch.phase == TouchPhase.Began)
                 {
-                    if (iconCo.OverlapPoint(Camera.main.ScreenToWorldPoint(touch.position)))
+                    if (outlineCollider.OverlapPoint(Camera.main.ScreenToWorldPoint(touch.position)))
                     {
                         isPressed = true;
                         fingerId = touch.fingerId;
-                        iconSp.enabled = false;
+                        outlineSprite.enabled = false;
                     }
                 }
             }
@@ -71,27 +67,44 @@ public class Planet : Mass
     {
         ChangeMass(deltaMass);
         transform.localScale += (Vector3)Vector2.one * deltaScale;
-        iconSp.transform.localScale = Vector3.one;
+        outlineSprite.transform.localScale = Vector3.one;
     }
 
-    private IEnumerator FadeIcon(float period)
+    public void FadeIcon(bool fadingIn, float percent)
     {
-        bool fadeOut = true;
+        outlineSprite.color = new Color(1F, 1F, 1F, fadingIn ? percent : 1 - percent);
+    }
 
-        while (iconSp.enabled)
-        {
-            for (float t = 0; t < period; t += Time.deltaTime)
-            {
-                if (t > period) t = period;
+    public Color GetPrimaryColor()
+    {
+        return primary;
+    }
 
-                float alpha = (fadeOut ? t / period : 1 - t / period);
-                iconSp.color = new Color(1F, 1F, 1F, alpha);
-                yield return null;
-            }
+    public Color GetSecondaryColor()
+    {
+        return second;
+    }
 
-            fadeOut = !fadeOut;
-            yield return null;
-        }
+    private void Start()
+    {
+        // Correct rendering order so masks don't fudge up
+        int randomOrder = Random.Range(0, 32767);
+        planetSprite.sortingOrder = randomOrder;
+        detailsSprite.sortingOrder = randomOrder + 1;
+        detailsMask.frontSortingOrder = randomOrder + 1;
+        detailsMask.backSortingOrder = randomOrder;
+
+        // Set planet's random colors
+        float randomHue = Random.Range(0F, 1F);
+        primary = Color.HSVToRGB(randomHue, 0.8F, 1F);
+        second = Color.HSVToRGB(randomHue, 1F, 0.8F);
+        planetSprite.color = primary;
+        detailsSprite.sprite = PlanetTextures.Instance.GetRandomTexture();
+        detailsSprite.color = second;
+
+        // Set planet's random rotation and arrange for it's despawning coroutine
+        transform.Rotate(0, 0, Random.Range(-180, 180));
+        StartCoroutine(DestroyMe(3F, 10F));
     }
 
     private IEnumerator DestroyMe(float time, float minDist)
