@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114067193910700530}
   m_Layer: 0
   m_Name: Rocket Default
-  m_TagString: Untagged
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +124,6 @@ MonoBehaviour:
   rocketSpeed: 3
   explosion: {fileID: 198302726636559890, guid: d28656a35228f664db8e77fac5f96ac1,
     type: 2}
-  timeToOrbit: 2
 --- !u!198 &198895883260799764
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -4693,7 +4692,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -412847771
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -4748,7 +4747,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -412847771
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cb431dce3afdb9440ac7cbc8fd17d474, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

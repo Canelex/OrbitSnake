@@ -43,14 +43,32 @@ public class Rocket : Mass
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        // Find contact point
-        Vector2 average = Vector2.zero;
-        foreach (ContactPoint2D point in coll.contacts)
+        if (coll.collider.tag == "Planet")
         {
-            average += point.point;
+            // Find contact point
+            Vector2 average = Vector2.zero;
+            foreach (ContactPoint2D point in coll.contacts)
+            {
+                average += point.point;
+            }
+            average /= coll.contacts.Length;
+            Crash(average);
         }
-        average /= coll.contacts.Length;
-        Crash(average);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Astronaut")
+        {
+            Astronaut astronaut = collider.GetComponent<Astronaut>();
+            if (!astronaut.collected)
+            {
+                game.SpawnAstronaut();
+                game.score++;
+                astronaut.FlyAtRocket(transform);
+                astronaut.collected = true;
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collider)

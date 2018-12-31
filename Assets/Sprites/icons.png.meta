@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 7044c40b4c4674a47bc81bc0033f48a0
+guid: 074b3f9669a1b7a43a13ea38c2058c7a
 TextureImporter:
   fileIDToRecycleName:
-    21300000: teleport_up
-    21300002: buttons2_1
-    21300004: buttons2_2
-    21300006: teleport_down
-    21300008: buttons2_4
-    21300010: buttons2_5
+    21300000: replay
+    21300002: play
+    21300004: home
+    21300006: cosmetics
+    21300008: icon_replay
+    21300010: icon_play
+    21300012: icon_home
+    21300014: icon_cosmetics
+    21300016: icon_boost
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -48,7 +51,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -112,121 +115,101 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: teleport_up
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 160
-        width: 160
-        height: 160
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 91bdda1520a831a4daafa5f6626dac16
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: buttons2_1
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 160
-        width: 160
-        height: 160
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 098d6b753a3188d41ac4d6db5c5cd29a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: buttons2_2
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 160
-        width: 160
-        height: 160
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cfe0cbf2fe10488409b5a119b7088548
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: teleport_down
+      name: icon_replay
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 160
-        height: 160
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8059b80c20812441b38c6b8dca84a08
+      spriteID: 401d993b9a5d2b84bb0c556c6e95f688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: buttons2_4
+      name: icon_play
       rect:
         serializedVersion: 2
-        x: 160
+        x: 128
         y: 0
-        width: 160
-        height: 160
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5889b544c94a70545ab18b3c964ace3a
+      spriteID: a29b2624a48d629468825c207f976b27
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: buttons2_5
+      name: icon_home
       rect:
         serializedVersion: 2
-        x: 320
+        x: 256
         y: 0
-        width: 160
-        height: 160
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 945079df3a1a1bb40b77d35fac0d4e4c
+      spriteID: 4b5361389ce35674da586c407b52dbbc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon_cosmetics
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e054679a0bc9d24fb3650181df573d9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon_boost
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 473858a8b48cd7741bd2211139f1f948
       vertices: []
       indices: 
       edges: []
@@ -234,12 +217,12 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3dec104cd53095e448ce0dfb5422bed5
+    spriteID: a2d069388e3efd5439f0aee5c0eb894f
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+  spritePackingTag: icons
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 

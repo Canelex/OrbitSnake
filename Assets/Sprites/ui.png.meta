@@ -1,18 +1,12 @@
 fileFormatVersion: 2
-guid: 6a561e34d20dadd48b351c7c948dee93
+guid: a91ccadd84437ad4ba4bc2721e2fb8de
 TextureImporter:
   fileIDToRecycleName:
     21300000: button_up
     21300002: button_down
     21300004: panel
-    21300006: play_up
-    21300008: play_down
-    21300010: replay_up
-    21300012: replay_down
-    21300014: home_up
-    21300016: home_down
-    21300018: cosmetics_up
-    21300020: cosmetics_down
+    21300006: small_button_up
+    21300008: small_button_down
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -42,7 +36,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -53,7 +47,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -74,7 +68,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -85,7 +79,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,7 +90,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,7 +101,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,13 +111,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: play_up
+      name: button_up
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1360
-        width: 720
-        height: 160
+        x: 6
+        y: 388
+        width: 500
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,19 +125,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d10ec5238a3009e4aaa1882b538252b6
+      spriteID: b308d5324b68b6b4d824b3c8247ea21e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: play_down
+      name: small_button_up
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1200
-        width: 720
-        height: 160
+        x: 516
+        y: 388
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,19 +145,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af5dd8ea9e39130469cb1c4a1461f500
+      spriteID: d5e472d5b0cf66d4ab1bdf8d176e224a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: replay_up
+      name: button_down
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1040
-        width: 720
-        height: 160
+        x: 6
+        y: 260
+        width: 500
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,19 +165,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2e34c597a0a2f441a9fbececa32ff44
+      spriteID: 13bad0df9f67a3345b15b872c53baffe
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: replay_down
+      name: small_button_down
       rect:
         serializedVersion: 2
-        x: 0
-        y: 880
-        width: 720
-        height: 160
+        x: 516
+        y: 260
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,87 +185,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6123c4b4f466e1d48b489b97979df3b9
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: home_up
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 720
-        width: 720
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ded92ab3f70004040973dbb65e6860a6
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: home_down
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 560
-        width: 720
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb9420b43961988409cc5687500cab7b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cosmetics_up
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 400
-        width: 720
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 643ec9369eb74624b9ecaebdac3af8ff
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cosmetics_down
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 240
-        width: 720
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 903cfed0179a0174cadd8070d6817aa5
+      spriteID: 086ae276f87c18b45be5ee5f087d5801
       vertices: []
       indices: 
       edges: []
@@ -280,10 +194,10 @@ TextureImporter:
       name: panel
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 720
-        height: 240
+        x: 6
+        y: 48
+        width: 500
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,7 +205,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6a255ff4a255af4eb1a537292c0ea2e
+      spriteID: d1c06255900445e4bb78ec98d1c8a936
       vertices: []
       indices: 
       edges: []
@@ -299,12 +213,12 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 42778989ac0b7da40a88279cc8dc10cf
+    spriteID: 28902d4de0f582f439e6ce4533c2e8c7
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+  spritePackingTag: ui
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 

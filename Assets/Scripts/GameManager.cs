@@ -10,31 +10,37 @@ public class GameManager : MonoBehaviour
     public string activeSkinName;
     [Space(20)]
     public float distanceTeleport;
+    public float rechargeTime;
     public float planetMassGrowth;
     public float planetScaleGrowth;
     public float planetSpawnDelay;
     private Camera mainCamera;
     private Rocket rocket;
-    private CanvasController canvas;
+    public CanvasManager canvas;
+    public TrackerIcon tracker;
     [Space(20)]
-	public Transform starfield1;
-	public Transform starfield2;
+    public string gamemode;
+    public Astronaut astronaut;
+    public Transform starfield1;
+    public Transform starfield2;
     public Planet planetPrefab;
     public ParticleSystem teleportEffect;
-	public string gamemode;
+    public Astronaut astronautPrefab;
     private bool gamePlaying;
-    private float score;
+    public float score;
 
     private void Update()
     {
         if (gamePlaying)
         {
+            #region All Gamemodes
+
             // Update rocket
             rocket.UpdateRocket();
 
             // Move stars behind rocket
-            starfield1.position = (Vector2) mainCamera.transform.position;
-			starfield2.position = (Vector2) mainCamera.transform.position;
+            starfield1.position = (Vector2)mainCamera.transform.position;
+            starfield2.position = (Vector2)mainCamera.transform.position;
 
             // Update planets
             float dt = Time.deltaTime;
@@ -51,28 +57,51 @@ public class GameManager : MonoBehaviour
                     growingPlanet = true;
                 }
             }
+            #endregion
 
-			if (gamemode == "Points")
-			{
-				// Update score
-            	score += 5 * dt;
-			}
+            #region Points Gamemode
+            
+            if (gamemode == "Points")
+            {
+                // Update score
+                score += 5 * dt;
+                canvas.GetField("Game Score").SetText(GetScore().ToString());
+            }
+
+            #endregion
+
+            #region Rescue Gamemode
+
+            if (gamemode == "Rescue")
+            {
+                // Update icon
+                tracker.UpdateTracker(rocket.transform, astronaut.transform);
+
+                canvas.GetField("Game Score").SetText(GetScore().ToString());
+            }
+
+            #endregion
         }
     }
 
-	private int CompareMasses(Mass a, Mass b)
+    private int CompareMasses(Mass a, Mass b)
     {
         if (a.GetMass() > b.GetMass()) return 1;
         if (a.GetMass() < b.GetMass()) return -1;
         return 0;
     }
 
-	public int GetScore()
+    public int GetScore()
     {
         return (int)score;
     }
 
-	private void SpawnPlanet()
+    public Rocket GetRocket()
+    {
+        return rocket;
+    }
+
+    private void SpawnPlanet()
     {
         Vector3 position = rocket.transform.position;
         position += rocket.transform.up * 8;
@@ -90,10 +119,17 @@ public class GameManager : MonoBehaviour
         Planet planet = Instantiate(planetPrefab, position, Quaternion.identity);
     }
 
-	public void ShakeCamera(float time)
-	{
-		StartCoroutine(CameraShake(time));
-	}
+    public void SpawnAstronaut()
+    {
+        Vector3 position = rocket.transform.up + rocket.transform.right * Random.Range(-1F, 1F);
+        position = rocket.transform.position + position.normalized * 10;
+        astronaut = Instantiate(astronautPrefab, position, Quaternion.identity);
+    }
+
+    public void ShakeCamera(float time)
+    {
+        StartCoroutine(CameraShake(time));
+    }
 
     public void DestroyAllPlanets()
     {
@@ -104,12 +140,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void TeleportForward(GameObject button)
+    public void TeleportForward(Button button)
     {
         if (gamePlaying)
         {
             rocket.transform.Translate(0, distanceTeleport, 0);
-            //Debug.Break();
 
             foreach (Planet planet in FindObjectsOfType<Planet>()) // Trails
             {
@@ -122,11 +157,20 @@ public class GameManager : MonoBehaviour
             }
 
             StartCoroutine(CameraShake(0.25F)); // Shake camera
+
+            StartCoroutine(RechargeButton(button));
         }
+    }
+
+    public void SetGamemode(string gamemode)
+    {
+        this.gamemode = gamemode;
     }
 
     public void StartGame()
     {
+        #region All Gamemodes
+
         Skin activeSkin = FindObjectOfType<SkinManager>().GetSkinByName(activeSkinName);
 
         // Load skin and setup rocket.
@@ -144,6 +188,10 @@ public class GameManager : MonoBehaviour
 
         // Reset map
         DestroyAllPlanets();
+        foreach (Astronaut astronaut in FindObjectsOfType<Astronaut>())
+        {
+            Destroy(astronaut.gameObject);
+        }
 
         // Start Spawning
         InvokeRepeating("SpawnPlanet", 0F, planetSpawnDelay);
@@ -151,27 +199,80 @@ public class GameManager : MonoBehaviour
         // Start the game.
         score = 0;
         gamePlaying = true;
+
+        #endregion
+
+        #region Points Gamemode
+        if (gamemode == "Points")
+        {
+
+        }
+        #endregion
+
+        #region Rescue Gamemode
+        if (gamemode == "Rescue")
+        {
+            tracker.gameObject.SetActive(true);
+            SpawnAstronaut();
+        }
+        else
+        {
+            tracker.gameObject.SetActive(false);
+        }
+        #endregion
     }
 
     public void StopGame()
     {
+        #region All Gamemodes
+        // Stop the game
+        gamePlaying = false;
+
         // Detatch camera
         Camera.main.transform.parent = null;
 
-		// Stop the game.
-        gamePlaying = false;
-
-        if (GetScore() > PlayerPrefs.GetInt("BestScore", 0))
-        {
-            PlayerPrefs.SetInt("BestScore", GetScore());
-        }
-
-		// Stop Spawning
+        // Stop spawning planets
         CancelInvoke("SpawnPlanet");
 
-		// Show canvas
-        canvas.ToggleGame(false, 1.0F);
-        canvas.ToggleGameOver(true, 1.0F);
+        // Show game over canvas
+        Invoke("ShowGameOver", 1F);
+
+        #endregion
+
+        #region Points Gamemode
+        if (gamemode == "Points")
+        {
+            // Update high score
+            int bestScore = PlayerPrefs.GetInt("BestScorePoints", 0);
+            if (GetScore() > bestScore)
+            {
+                bestScore = GetScore();
+                PlayerPrefs.SetInt("BestScorePoints", bestScore);
+            }
+
+            // Update game over canvas
+            canvas.GetField("Game Over Score").SetText(GetScore().ToString());
+            canvas.GetField("Game Over Best").SetText(bestScore.ToString());
+        }
+        #endregion
+
+        #region Rescue Gamemode
+
+        if (gamemode == "Rescue")
+        {
+            // Update high score
+            int bestScore = PlayerPrefs.GetInt("BestScoreRescue", 0);
+            if (GetScore() > bestScore)
+            {
+                bestScore = GetScore();
+                PlayerPrefs.SetInt("BestScoreRescue", bestScore);
+            }
+
+            // Update game over canvas
+            canvas.GetField("Game Over Score").SetText(GetScore().ToString());
+            canvas.GetField("Game Over Best").SetText(bestScore.ToString());
+        }
+        #endregion
     }
 
     private void Start()
@@ -190,14 +291,16 @@ public class GameManager : MonoBehaviour
         // Generate planet sprites
         PlanetTextures.Instance.GenerateSprites();
 
-        // Find the canvas object
-        canvas = FindObjectOfType<CanvasController>();
-
         // Start fading planet outlines (one time)
         StartCoroutine(FadePlanetOutlines(0.5F));
     }
 
-	private IEnumerator CameraShake(float time)
+    private void ShowGameOver()
+    {
+        canvas.OpenPage("Game Over");
+    }
+
+    private IEnumerator CameraShake(float time)
     {
         Transform camera = Camera.main.transform;
         Transform rock = rocket.transform;
@@ -221,18 +324,39 @@ public class GameManager : MonoBehaviour
 
         for (float time = 0; ; time += Time.deltaTime)
         {
-			if (time >= period)
-			{
-				time -= period;
-				fadingIn = !fadingIn;
-			}
+            if (time >= period)
+            {
+                time -= period;
+                fadingIn = !fadingIn;
+            }
 
-			foreach (Planet planet in FindObjectsOfType<Planet>())
+            foreach (Planet planet in FindObjectsOfType<Planet>())
             {
                 planet.FadeIcon(fadingIn, time / period);
             }
 
-			yield return null;
+            yield return null;
         }
+    }
+
+    private IEnumerator RechargeButton(Button button)
+    {
+        button.interactable = false;
+        button.GetComponent<Image>().color = new Color(1F, 1F, 1F, 0.5F);
+        Text text = button.transform.GetChild(0).GetComponent<Text>();
+        Image image = button.transform.GetChild(1).GetComponent<Image>();
+        text.enabled = true;
+        image.enabled = false;
+
+        for (float time = 0; time <= rechargeTime && gamePlaying; time += Time.deltaTime)
+        {
+            text.text = Mathf.CeilToInt(rechargeTime - time) + "";
+            yield return null;
+        }
+
+        button.GetComponent<Image>().color = Color.white;
+        text.enabled = false;
+        image.enabled = true;
+        button.interactable = true;
     }
 }
