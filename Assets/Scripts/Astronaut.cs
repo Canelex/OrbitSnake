@@ -14,14 +14,17 @@ public class Astronaut : MonoBehaviour
 
     private void Update()
     {
-		Collider2D[] results = new Collider2D[8];
-		int num = myCollider.OverlapCollider(new ContactFilter2D(), results);
-		for (int i = 0; i < num; i++)
+		if (!collected)
 		{
-			if (results[i].tag == "Planet")
+			Collider2D[] results = new Collider2D[8];
+			int num = myCollider.OverlapCollider(new ContactFilter2D(), results);
+			for (int i = 0; i < num; i++)
 			{
-				transform.position = Vector3.MoveTowards(transform.position, results[0].transform.position, -2F * Time.deltaTime);
-				break;
+				if (results[i].tag == "Planet")
+				{
+					transform.position = Vector3.MoveTowards(transform.position, results[i].transform.position, -Time.deltaTime);
+					break;
+				}
 			}
 		}
     }

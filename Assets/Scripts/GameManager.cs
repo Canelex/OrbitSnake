@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
             position += rocket.transform.right * Random.Range(-3F, 3F);
         }
 
-        Planet planet = Instantiate(planetPrefab, position, Quaternion.identity);
+        Instantiate(planetPrefab, position, Quaternion.identity);
     }
 
     public void SpawnAstronaut()
@@ -137,6 +137,15 @@ public class GameManager : MonoBehaviour
         foreach (Planet planet in planets)
         {
             Destroy(planet.gameObject);
+        }
+    }
+
+    public void DestroyAllAstronauts()
+    {
+        Astronaut[] astronauts = FindObjectsOfType<Astronaut>();
+        foreach (Astronaut astronaut in astronauts)
+        {
+            Destroy(astronaut.gameObject);
         }
     }
 
@@ -188,10 +197,7 @@ public class GameManager : MonoBehaviour
 
         // Reset map
         DestroyAllPlanets();
-        foreach (Astronaut astronaut in FindObjectsOfType<Astronaut>())
-        {
-            Destroy(astronaut.gameObject);
-        }
+        DestroyAllAstronauts();
 
         // Start Spawning
         InvokeRepeating("SpawnPlanet", 0F, planetSpawnDelay);
