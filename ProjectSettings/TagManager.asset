@@ -7,7 +7,6 @@ TagManager:
   - Planet
   - Rocket
   - Outline
-  - Astronaut
   layers:
   - Default
   - TransparentFX
