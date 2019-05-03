@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform rocket;
+    public Transform following;
     private Vector3 offset;
     private bool shaking;
     private float timeShake;
@@ -11,10 +11,10 @@ public class CameraFollow : MonoBehaviour
 
     public void UpdateCamera()
     {
-        if (rocket == null) return;
+        if (following == null) return;
 
-        transform.position = rocket.position + offset;
-        transform.rotation = rocket.rotation;
+        transform.position = following.position + offset;
+        transform.rotation = following.rotation;
         
         if (shaking)
         {
@@ -28,10 +28,10 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    public void SetRocket(Transform rocket)
+    public void SetFollowing(Transform following)
     {
-        this.rocket = rocket;
-        offset = transform.position - rocket.position;
+        this.following = following;
+        offset = transform.position - following.position;
     }
 
     public void SetShaking(float time, float intensity)
@@ -43,9 +43,9 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
-        if (rocket != null)
+        if (following != null)
         {
-            SetRocket(rocket);
+            SetFollowing(following);
         }
     }
 }

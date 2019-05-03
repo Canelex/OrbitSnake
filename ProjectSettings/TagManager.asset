@@ -53,7 +53,7 @@ TagManager:
   - name: Outline
     uniqueID: 3626011425
     locked: 0
-  - name: Rocket
+  - name: Snake
     uniqueID: 3882119525
     locked: 0
   - name: Effects
