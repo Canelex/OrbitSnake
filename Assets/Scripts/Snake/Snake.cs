@@ -44,19 +44,7 @@ public class Snake : SnakeNode
 
             if (nodes > 0 && nodes < maxNodes)
             {
-                // Last node
-                node = this;
-                while (node.next != null)
-                {
-                    node = node.next;
-                }
-
-                Vector3 position = node.transform.position;
-                SnakeNode newNode = Instantiate(prefabNode, position, Quaternion.identity);
-                newNode.transform.position = Vector3.MoveTowards(node.transform.position, newNode.transform.position, -nodeGap);
-                newNode.prev = node;
-                node.next = newNode;
-                nodes++;
+                IncreaseNodes(1);
             }
         }
     }
@@ -115,9 +103,30 @@ public class Snake : SnakeNode
         transform.localScale = Vector3.zero;
     }
 
+    public void IncreaseNodes(int num)
+    {
+        // Last node
+        SnakeNode lastNode = this;
+        while (lastNode.next != null)
+        {
+            lastNode = lastNode.next;
+        }
+
+        for (int i = 0; i < num; i++)
+        {
+            SnakeNode newNode = Instantiate(prefabNode, Vector3.zero, Quaternion.identity);
+            newNode.transform.position = Vector3.MoveTowards(lastNode.transform.position, lastNode.prev.transform.position, -nodeGap);
+            newNode.prev = lastNode;
+            lastNode.next = newNode;
+            lastNode = newNode;
+            nodes++;
+        }
+    }
+
     private void Start()
     {
         SnakeNode mostRecent = this;
+        prev = this;
 
         for (int i = 1; i < maxNodes; i++)
         {

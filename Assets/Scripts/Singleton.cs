@@ -1,27 +1,22 @@
 using UnityEngine;
 
-/// <summary>
-/// Inherit from this base class to create a singleton.
-/// e.g. public class MyClassName : Singleton<MyClassName> {}
-/// </summary>
+/* Inherit from this base class to create a singleton.
+ * e.g. public class MyClassName : Singleton<MyClassName> {} */
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    // Check to see if we're about to be destroyed.
+    /* Check to see if we're about to be destroyed. */
     private static bool m_ShuttingDown = false;
     private static object m_Lock = new object();
     private static T m_Instance;
 
-    /// <summary>
-    /// Access singleton instance through this propriety.
-    /// </summary>
+    /* Access singleton instance through this propriety. */
     public static T Instance
     {
         get
         {
             if (m_ShuttingDown)
             {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                    "' already destroyed. Returning null.");
+                Debug.LogWarning("[Singleton] Instance '" + typeof(T) + "' already destroyed. Returning null.");
                 return null;
             }
 
@@ -43,6 +38,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         // Make instance persistent.
                         DontDestroyOnLoad(singletonObject);
                     }
+                    else
+                    {
+                        var singletonObject = m_Instance.gameObject;
+                        singletonObject.name = typeof(T).ToString() + " (Singleton)";
+
+                        // Make instance persistent.
+                        DontDestroyOnLoad(singletonObject);
+                    }
                 }
 
                 return m_Instance;
@@ -50,12 +53,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;
     }
-
 
     private void OnDestroy()
     {

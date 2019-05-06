@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraConfig : MonoBehaviour
 {
-    public float screenWidth = 3F;
+    public float screenWidth = 4F;
     public int framerate = 60;
 
     private void Start()
@@ -13,6 +13,7 @@ public class CameraConfig : MonoBehaviour
         // Setup camera
         Camera camera = GetComponent<Camera>();
         float screenHeight = screenWidth / camera.aspect;
+        if (screenHeight >= 8) screenHeight = 8;
         camera.orthographicSize = screenHeight;    
 
         // Set framerate

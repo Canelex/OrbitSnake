@@ -1,0 +1,20 @@
+{
+    "items": [
+        {
+            "key": "play_button",
+            "value": "Play"
+        },
+        {
+            "key": "last_score",
+            "value": "Last"
+        },
+        {
+            "key": "best_score",
+            "value": "Best"
+        },
+        {
+            "key": "tip_text",
+            "value": "Tap and hold"
+        }
+    ]
+}

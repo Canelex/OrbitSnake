@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasManager : MonoBehaviour
+public class CanvasManager : Singleton<CanvasManager>
 {
-    public static CanvasManager instance;
     public string defaultPage;
     public Page[] pages;
     public Field[] fields;
@@ -83,7 +82,6 @@ public class CanvasManager : MonoBehaviour
 
     private void Start()
     {
-        instance = this;
         activePages = new Stack<Page>();  
         ShowPage(defaultPage); 
     }

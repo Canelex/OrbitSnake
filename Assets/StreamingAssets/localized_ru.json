@@ -1,0 +1,20 @@
+{
+    "items": [
+        {
+            "key": "play_button",
+            "value": "играть"
+        },
+        {
+            "key": "last_score",
+            "value": "прошлой"
+        },
+        {
+            "key": "best_score",
+            "value": "лучший"
+        },
+        {
+            "key": "tip_text",
+            "value": "нажмите"
+        }
+    ]
+}

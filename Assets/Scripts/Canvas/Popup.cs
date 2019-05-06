@@ -8,7 +8,6 @@ public class Popup : MonoBehaviour
     private RectTransform canvas;
     private RectTransform rect;
     public Vector3 position;
-    public string text;
     public float lifetime = 1F;
     public float popTime = 0.3F;
 
@@ -17,7 +16,6 @@ public class Popup : MonoBehaviour
         Vector2 viewport = Camera.main.WorldToViewportPoint(position) - Vector3.one * 0.5F;
         Vector2 size = canvas.rect.size;
         Vector2 pos = new Vector2(viewport.x * size.x, viewport.y * size.y);
-        Debug.Log(viewport);
         
         rect.localPosition = pos;
     }
@@ -32,7 +30,11 @@ public class Popup : MonoBehaviour
         }
 
         rect.localScale = Vector3.one;
-        yield return new WaitForSeconds(lifetime - popTime * 2F);
+        for (float t = 0; t < lifetime - popTime * 2F; t += Time.deltaTime)
+        {
+            yield return null;
+        }
+        //yield return new WaitForSeconds(lifetime - popTime * 2F);
 
         for (float t = 0; t < popTime; t += Time.deltaTime)
         {
@@ -44,11 +46,10 @@ public class Popup : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Start()
+    public void Start()
     {
         rect = (RectTransform)transform;
         canvas = (RectTransform) rect.parent;
         StartCoroutine(Pop());
-        GetComponent<Text>().text = text;
     }
 }

@@ -5,80 +5,97 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    // Managers
+    private static GameManager instance;
+    private AssetManager assetManager;
+    private CanvasManager canvasManager;
+
+    // Game variables
+    [Header("Game Variables")]
     public float planetRadiusGrowth;
     public float planetKConstGrowth;
     public float planetSpawnDelay;
-    public float distanceTeleport;
-    public float rechargeTime;
-    [Space(20)]
-    public Transform stars;
-    private CanvasManager canvas;
-    private Snake snake;
+    [Header("Objects")]
+    public Transform background;
+    public Snake snake;
     private bool playing;
     private bool firstSpawned;
     private float score;
-    [Space(20)]
-    // Prefabs
+    [Header("Prefabs")]
     public Snake prefabSnake;
     public Planet prefabPlanet;
-    public ParticleSystem prefabTeleport;
-    public ParticleSystem prefabExplosion;
-    public Popup prefabPopup;
+    public Popup prefabTipText;
+    public Popup prefabTipImage;
+
+    public static GameManager Instance
+    {
+        get { return instance; }
+    }
 
     private void Update()
     {
         if (playing)
         {
-            // Update Snake
+            UpdatePlanets();
             snake.UpdateSnake();
-
-            // Move stars behind Snake
-            stars.position = (Vector2)snake.transform.position;
-
-            // Update planets
-            float dt = Time.deltaTime;
-            Planet[] planets = Helper.planets;
-            System.Array.Sort(planets, ComparePlanets); // Prioritize smaller masses
-            bool growingPlanet = false;
-            foreach (Planet planet in planets)
-            {
-                planet.UpdatePlanet();
-
-                if (!growingPlanet && planet.IsPressed())
-                {
-                    planet.radius += planetRadiusGrowth * dt;
-                    planet.kConst += planetKConstGrowth * dt;
-                    growingPlanet = true;
-                }
-            }
-
-            if (growingPlanet)
-            {
-                if (!SoundManager.Instance.IsSoundPlaying())
-                {
-                    SoundManager.Instance.PlaySound("Blop");
-                }
-            }
+            background.position = (Vector2)snake.transform.position; // Move stars behind Snake
 
             // Update score
-            score += 5 * dt;
-            canvas.GetField("Score").text.text = GetScore().ToString();
+            score += 5 * Time.deltaTime;
+            canvasManager.GetField("Score").text.text = GetScore().ToString(); // UI
         }
 
         Helper.cameraFollow.UpdateCamera();
     }
 
-    private int ComparePlanets(Planet a, Planet b)
+    private void UpdatePlanets()
     {
-        if (a.kConst > b.kConst) return 1;
-        if (a.kConst < b.kConst) return -1;
-        return 0;
-    }
+        Planet[] planets = Helper.planets;
+        System.Array.Sort(planets, ComparePlanets);
 
-    public int GetScore()
-    {
-        return (int)score;
+        // Update planets isPressed state
+        foreach (Touch touch in Input.touches)
+        {
+            bool touchGrowingPlanet = false;
+            Vector3 point = Camera.main.ScreenToWorldPoint(touch.position);
+
+            foreach (Planet planet in planets)
+            {
+                if (touch.phase == TouchPhase.Ended && planet.IsPressed(touch.fingerId))
+                {
+                    planet.Unpress(); // Finger released planet.
+                }
+
+                if (!touchGrowingPlanet && touch.phase == TouchPhase.Began)
+                {
+                    if (!planet.IsPressed() && planet.OverPlanet(point))
+                    {
+                        planet.Press(touch.fingerId); // Finger clicked on this planet
+                        touchGrowingPlanet = true;
+                    }
+                }
+            }
+        }
+
+        // Grow planets we need to grow (max 1 per finger)
+        bool growingPlanets = false;
+        float dt = Time.deltaTime;
+        foreach (Planet planet in planets)
+        {
+            if (planet.IsPressed())
+            {
+                planet.kConst += planetKConstGrowth * dt;
+                planet.radius += planetRadiusGrowth * dt;
+                planet.transform.localScale = Vector3.one * planet.radius;
+                growingPlanets = true; // at least one planet growing (sound!)
+            }
+        }
+
+        // Play sound
+        if (growingPlanets && !assetManager.IsSoundPlaying())
+        {
+            assetManager.PlaySound("Blop"); // Planet growing sound
+        }
     }
 
     private void SpawnPlanet()
@@ -86,19 +103,29 @@ public class GameManager : MonoBehaviour
         if (!playing) return;
 
         Vector3 position = snake.transform.position;
-        float ahead = Mathf.Max(9F, Camera.main.orthographicSize + 1);
+        float ahead = 10;
         position += snake.transform.up * ahead;
 
         if (!firstSpawned)
         {
+            // Position
             bool leftOrRight = Random.Range(-1F, 1F) < 0;
             position += snake.transform.right * (leftOrRight ? -1 : 1) * Random.Range(2F, 2.5F);
+
+            // Popup text
+            Popup prfb = Instantiate(prefabTipText, canvasManager.GetPage("Game").obj.transform);
+            prfb.position = position + Vector3.down * 1.5F;
+            prfb.GetComponent<Text>().text = assetManager.GetLocalizedString("tip_text");
+
+            // Popup image
+            prfb = Instantiate(prefabTipImage, canvasManager.GetPage("Game").obj.transform);
+            prfb.position = position;
+
             firstSpawned = true;
-            ShowTip(position + Vector3.down * 1.5F, "Tap and hold");
         }
         else
         {
-            position += snake.transform.right * Random.Range(-5F, 5F);
+            position += snake.transform.right * Random.Range(-6F, 6F);
         }
 
         // Make sure we are not nearby another planet.
@@ -122,25 +149,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowTip(Vector3 position, string text)
-    {
-        Transform panel = canvas.GetPage("Game").obj.transform;
-        Popup popup = Instantiate(prefabPopup, panel);
-        popup.text = text;
-        popup.position = position;
-    }
-
     public void StartGame()
     {
         // Open correct UI
-        canvas.CloseAllPages();
-        canvas.ShowPage("Game");
+        canvasManager.CloseAllPages();
+        canvasManager.ShowPage("Game");
 
         // Reset map
         DestroyAllPlanets();
 
         // Reset Snake
-        // todo skins
+        // TODO skins
         snake = Instantiate(prefabSnake, Vector3.zero, Quaternion.identity);
         CameraFollow follow = Helper.cameraFollow;
         follow.transform.position = Vector3.back * 10;
@@ -160,17 +179,11 @@ public class GameManager : MonoBehaviour
         // Stop the game
         playing = false;
 
-        foreach (Planet planet in Helper.planets)
+        int score = GetScore();
+        Prefs.SetInt("last_score_points", score);
+        if (score > Prefs.GetInt("best_score_points", 0)) // Update high score
         {
-            planet.DisableOutline();
-        }
-
-        Prefs.SetInt("last_score_points", GetScore());
-
-        // Update high score
-        if (GetScore() > Prefs.GetInt("best_score_points", 0))
-        {
-            Prefs.SetInt("best_score_points", GetScore());
+            Prefs.SetInt("best_score_points", score);
         }
 
         UpdateUI(); // Update fields
@@ -180,29 +193,8 @@ public class GameManager : MonoBehaviour
 
     private void ShowGameOver()
     {
-        canvas.CloseAllPages(); // Close all pages
-        canvas.ShowPage("Menu"); // Open game over
-    }
-
-    private IEnumerator FadePlanetOutlines(float period)
-    {
-        bool fadingIn = true;
-
-        for (float time = 0; ; time += Time.deltaTime)
-        {
-            if (time >= period)
-            {
-                time -= period;
-                fadingIn = !fadingIn;
-            }
-
-            foreach (Planet planet in FindObjectsOfType<Planet>())
-            {
-                planet.FadeIcon(fadingIn, time / period);
-            }
-
-            yield return null;
-        }
+        canvasManager.CloseAllPages(); // Close all pages
+        canvasManager.ShowPage("Menu"); // Open game over
     }
 
     private void UpdateUI()
@@ -211,18 +203,31 @@ public class GameManager : MonoBehaviour
         int lastScore = Prefs.GetInt("last_score_points", 0);
 
         // Update game over canvas
-        canvas.GetField("Last Score").text.text = lastScore.ToString();
-        canvas.GetField("Best Score").text.text = bestScore.ToString();
+        canvasManager.GetField("Last Score").text.text = lastScore.ToString();
+        canvasManager.GetField("Best Score").text.text = bestScore.ToString();
+    }
+
+    private int ComparePlanets(Planet a, Planet b)
+    {
+        if (a.kConst > b.kConst) return 1;
+        if (a.kConst < b.kConst) return -1;
+        return 0;
+    }
+
+    public int GetScore()
+    {
+        return (int)score;
     }
 
     private void Start()
     {
         // Initialize variables
         instance = this;
-        canvas = CanvasManager.instance;
+        assetManager = AssetManager.Instance;
+        canvasManager = CanvasManager.Instance;
 
+        assetManager.PlayMusic("Music");
+        assetManager.UpdateAudio();
         UpdateUI(); // Update UI (one time)
-        StartCoroutine(FadePlanetOutlines(0.5F)); // Start fading planet outlines (one time)
-        SoundManager.Instance.PlayMusic("Music");
     }
 }

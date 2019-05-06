@@ -1,0 +1,20 @@
+{
+    "items": [
+        {
+            "key": "play_button",
+            "value": "玩"
+        },
+        {
+            "key": "last_score",
+            "value": "持续"
+        },
+        {
+            "key": "best_score",
+            "value": "最好"
+        },
+        {
+            "key": "tip_text",
+            "value": "点击并按住"
+        }
+    ]
+}
