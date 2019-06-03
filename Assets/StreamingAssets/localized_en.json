@@ -1,9 +1,17 @@
 {
     "items": [
-        {
-            "key": "play_button",
-            "value": "Play"
-        },
+		{
+			"key": "play_planet_button",
+			"value": "Play (hold)"
+		},
+		{
+			"key": "shop_planet_button",
+			"value": "Shop (hold)"
+		},
+		{
+			"key": "scores_planet_button",
+			"value": "Scores (hold)"
+		},
         {
             "key": "last_score",
             "value": "Last"
@@ -15,6 +23,47 @@
         {
             "key": "tip_text",
             "value": "Tap and hold"
-        }
+        },
+		{
+			"key": "home_planet_button",
+			"value": "Home (hold)"
+		},
+		{
+			"key": "purchase_skin_button",
+			"value": "Purchase"
+		},
+		{
+			"key": "cancel_button",
+			"value": "Cancel"
+		},
+		{
+			"key": "purchase_skin_text",
+			"value": "Purchase Skin?"
+		},
+		{
+			"key": "default_text",
+			"value": "Default"
+		},
+		{
+			"key": "small_ticket_text",
+			"value": "40% Off"
+		},
+		{
+			"key": "small_ticket_button",
+			"value": "$2.99 USD"
+		},
+		{
+			"key": "big_ticket_text",
+			"value": "80% Off"
+		},
+		{
+			"key": "big_ticket_button",
+			"value": "$4.99 USD"
+		},
+		{
+			"key": "active_button",
+			"value": "Active"
+		}
+		
     ]
 }

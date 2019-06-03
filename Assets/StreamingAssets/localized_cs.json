@@ -1,9 +1,17 @@
 {
     "items": [
-        {
-            "key": "play_button",
-            "value": "玩"
-        },
+		{
+			"key": "play_planet_button",
+			"value": "玩（持有）"
+		},
+		{
+			"key": "shop_planet_button",
+			"value": "购物（持有）"
+		},
+		{
+			"key": "scores_planet_button",
+			"value": "分数（持有）"
+		},
         {
             "key": "last_score",
             "value": "持续"
@@ -14,7 +22,48 @@
         },
         {
             "key": "tip_text",
-            "value": "点击并按住"
-        }
+            "value": "点按并按住"
+        },
+		{
+			"key": "home_planet_button",
+			"value": "家（持有）"
+		},
+		{
+			"key": "purchase_skin_button",
+			"value": "采购"
+		},
+		{
+			"key": "cancel_button",
+			"value": "取消"
+		},
+		{
+			"key": "purchase_skin_text",
+			"value": "购买蛇？"
+		},
+		{
+			"key": "default_text",
+			"value": "默认"
+		},
+		{
+			"key": "small_ticket_text",
+			"value": "40折优惠"
+		},
+		{
+			"key": "small_ticket_button",
+			"value": "$2.99 USD"
+		},
+		{
+			"key": "big_ticket_text",
+			"value": "80折优惠"
+		},
+		{
+			"key": "big_ticket_button",
+			"value": "$4.99 USD"
+		},
+		{
+			"key": "active_button",
+			"value": "活性"
+		}
+		
     ]
 }

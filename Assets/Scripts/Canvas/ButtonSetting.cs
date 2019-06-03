@@ -11,6 +11,7 @@ public class ButtonSetting : MonoBehaviour
         bool setting = !Prefs.GetBool(setting_name, true);
         Prefs.SetBool(setting_name, setting);
         UpdateColor();
+        AssetManager.Instance.UpdateAudio();
     }
 
     private void UpdateColor()

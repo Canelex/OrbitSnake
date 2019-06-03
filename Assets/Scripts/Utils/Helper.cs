@@ -37,15 +37,8 @@ public class Helper
         get {return GameObject.FindObjectsOfType<Planet>();}
     }
 
-    public static bool soundEnabled
+    public static GameObject[] objects
     {
-        get {return Prefs.GetBool("sound_enabled", true);}
-        set {Prefs.SetBool("sound_enabled", value);}
-    }
-
-    public static bool musicEnabled
-    {
-        get {return Prefs.GetBool("music_enabled", true);}
-        set {Prefs.SetBool("music_enabled", value);}
+        get {return GameObject.FindGameObjectsWithTag("SpaceObject");}
     }
 }

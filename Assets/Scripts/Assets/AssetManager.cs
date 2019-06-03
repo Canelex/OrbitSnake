@@ -11,12 +11,19 @@ public class AssetManager : Singleton<AssetManager>
     public AudioSource soundSource;
     public AudioSource musicSource;
     public Audio[] audios;
-    private bool isReady;
+    public Skin[] skins;
 
     #region Localization
 
     public void LoadLocalizedText(string fileName)
     {
+        // Custom loading script for android
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            StartCoroutine(LoadLocalizedTextOnAndroid(fileName));
+            return;
+        }
+
         localizedText = new Dictionary<string, string>();
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
         if (File.Exists(filePath))
@@ -36,6 +43,33 @@ public class AssetManager : Singleton<AssetManager>
         }
     }
 
+    private IEnumerator LoadLocalizedTextOnAndroid(string fileName)
+    {
+        localizedText = new Dictionary<string, string>();
+        string filePath = Path.Combine(Application.streamingAssetsPath + "/", fileName);
+        string json;
+
+        if (filePath.Contains("://") || filePath.Contains(":///"))
+        {
+            Debug.Log("UNITY:" + System.Environment.NewLine + filePath);
+            UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(filePath);
+            yield return www.SendWebRequest();
+            json = www.downloadHandler.text;
+        }
+        else
+        {
+            json = File.ReadAllText(filePath);
+        }
+
+        LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(json);
+        foreach (LocalizationData.LocalizationItem item in loadedData.items)
+        {
+            localizedText.Add(item.key, item.value); // Add each json key-value pair
+        }
+
+        Debug.Log("Loaded '" + fileName + "' with " + localizedText.Count + " entries.");
+    }
+
     private string GetLocalizedFile()
     {
         switch (Application.systemLanguage)
@@ -46,6 +80,8 @@ public class AssetManager : Singleton<AssetManager>
                 return "localized_cs.json";
             case SystemLanguage.Russian:
                 return "localized_ru.json";
+            case SystemLanguage.Spanish:
+                return "localized_es.json";
         }
 
         return "localized_en.json";
@@ -62,7 +98,7 @@ public class AssetManager : Singleton<AssetManager>
     }
 
     #endregion
-    #region Textures/details
+    #region Textures/details/skins
 
     private void CreateSprites(int numSprites)
     {
@@ -78,6 +114,16 @@ public class AssetManager : Singleton<AssetManager>
     public Sprite GetRandomTexture()
     {
         return details[Random.Range(0, details.Length)];
+    }
+
+    public Skin GetSkin(string name)
+    {
+        foreach (Skin skin in skins)
+        {
+            if (skin.name == name) return skin;
+        }
+
+        return null;
     }
 
     #endregion
@@ -136,21 +182,21 @@ public class AssetManager : Singleton<AssetManager>
 
     public void UpdateAudio()
     {
-        soundSource.mute = !Helper.soundEnabled;
-        musicSource.mute = !Helper.musicEnabled;
+        soundSource.mute = !Prefs.soundEnabled;
+        musicSource.mute = !Prefs.musicEnabled;
     }
 
     #endregion
 
-    public bool IsReady()
-    {
-        return isReady;
-    }
-
-    public void Init()
+    public new void Init()
     {
         LoadLocalizedText(GetLocalizedFile()); // load language file
         CreateSprites(10); // create planet sprites
-        isReady = true;
+        PlayMusic("Music"); // Play music
+        UpdateAudio(); // Sync to settings
+
+        IsReady = true;
+        Debug.Log("Finshed initializing AssetManager.");
     }
+
 }

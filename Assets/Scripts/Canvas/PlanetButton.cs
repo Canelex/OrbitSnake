@@ -7,78 +7,47 @@ using UnityEngine.SceneManagement;
 public class PlanetButton : MonoBehaviour
 {
     [Header("Properties")]
-    public float radiusGrowSpeed = 3;
-    public float radius = 1;
-    public float radiusBreakAfter = 2;
-    public Color colorBase = Color.white;
-    public Color colorDetails = Color.white;
+    public float percent = 0;
+    public float period = 0.25F;
     public string sceneToLoad;
-    [Header("Prefabs")]
-    public ParticleSystem prefabEffect;
-    public Image imageBase;
-    public Image imageDetails;
-    private RectTransform rect;
+    public RectTransform rect;
     private bool isPressed;
+    private bool loading;
     private int fingerId;
+
+    public void SetPressed(bool pressed)
+    {
+        this.isPressed = pressed;
+    }
 
     private void Update()
     {
-        if (IsPressed())
+        if (loading) return;
+        if (Shutters.Instance.LoadingScene) return;
+
+        if (isPressed)
         {
-            radius += radiusGrowSpeed * Time.deltaTime;
+            percent += (1 / period) * Time.deltaTime;
+
+            if (!AssetManager.Instance.IsSoundPlaying())
+            {
+                AssetManager.Instance.PlaySound("Blop");
+            }
         }
 
-        if (radius >= radiusBreakAfter)
+        if (percent >= 1)
         {
-            ParticleSystem ps = Instantiate(prefabEffect, rect.position, Quaternion.identity);
-            ParticleSystem.MainModule main = ps.main;
-            main.startColor = new ParticleSystem.MinMaxGradient(colorBase, colorDetails);
-            main.startSize = new ParticleSystem.MinMaxCurve(0.1F, 0.5F);
-            Destroy(ps.gameObject, 1F);
-            Destroy(gameObject);
-            Shutters.Instance.LoadScene(sceneToLoad);
+            Shutters.Instance.LoadSceneWithShutters(sceneToLoad);
+            loading = true;
         }
         else
         {
-            rect.sizeDelta = Vector3.one * radius;
+            rect.localScale = Vector3.one * (1 + percent) / 2F;
         }
-    }
-
-    private bool IsPressed()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (!isPressed && touch.phase == TouchPhase.Began)
-            {
-                Vector3 position = Camera.main.ScreenToWorldPoint(touch.position);
-                if (Vector2.Distance(position, rect.position) < radius)
-                {
-                    isPressed = true;
-                    fingerId = touch.fingerId;
-                }
-            }
-
-            if (isPressed && touch.phase == TouchPhase.Ended && fingerId == touch.fingerId)
-            {
-                isPressed = false;
-            }
-        }
-
-        return isPressed;
-    }
-
-    private IEnumerator LoadScene()
-    {
-        yield return Shutters.Instance.Close(0.5F);
-        SceneManager.LoadScene(sceneToLoad);
-        yield return Shutters.Instance.Open(0.5F);   
     }
 
     private void Start()
     {
-        rect = (RectTransform)transform;
-
-        imageBase.color = colorBase;
-        imageDetails.color = colorDetails;
+        rect.localScale = Vector3.one * (1 + percent) / 2F;
     }
 }

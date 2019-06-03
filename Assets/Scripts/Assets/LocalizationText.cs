@@ -10,17 +10,23 @@ public class LocalizationText : MonoBehaviour
     private Text text;
     public string key;
 
-    private void Update()
+    public void UpdateText()
     {
-        if (assetManager.IsReady())
+        if (AssetManager.IsReady)
         {
             text.text = assetManager.GetLocalizedString(key);
         }
     }
 
-    private void Awake()
+    public void Update()
+    {
+        UpdateText();
+    }
+
+    public void Start()
     {
         text = GetComponent<Text>();
         assetManager = AssetManager.Instance;
+        UpdateText();
     }
 }

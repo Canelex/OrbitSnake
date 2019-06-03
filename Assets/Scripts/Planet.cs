@@ -73,7 +73,7 @@ public class Planet : MonoBehaviour
         mask.backSortingOrder = randomOrder;
 
         // Set planet's random colors
-        float[] hues = {0/360F, 17/360F, 90/360F, 207/360F, 260/360F, 325/360F};
+        float[] hues = { 0 / 360F, 17 / 360F, 90 / 360F, 207 / 360F, 260 / 360F, 325 / 360F };
         float randomHue = hues[Random.Range(0, hues.Length)]; //Random.Range(0F, 1F);
         primary = Color.HSVToRGB(randomHue, 0.8F, 1F);
         second = Color.HSVToRGB(randomHue, 1F, 0.8F);

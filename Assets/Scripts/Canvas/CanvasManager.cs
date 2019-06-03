@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasManager : Singleton<CanvasManager>
+public class CanvasManager : MonoBehaviour
 {
+    public static CanvasManager Instance;
     public string defaultPage;
     public Page[] pages;
     public Field[] fields;
@@ -80,8 +81,9 @@ public class CanvasManager : Singleton<CanvasManager>
         return activePages.Count;
     }
 
-    private void Start()
+    private void Awake()
     {
+        Instance = this;
         activePages = new Stack<Page>();  
         ShowPage(defaultPage); 
     }

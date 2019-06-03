@@ -18,14 +18,16 @@ public class GameManager : MonoBehaviour
     [Header("Objects")]
     public Transform background;
     public Snake snake;
-    private bool playing;
+    public bool playing;
     private bool firstSpawned;
-    private float score;
+    private bool gameOverShowed;
+    public float score;
     [Header("Prefabs")]
     public Snake prefabSnake;
     public Planet prefabPlanet;
     public Popup prefabTipText;
     public Popup prefabTipImage;
+    public Powerup[] prefabPowerups;
 
     public static GameManager Instance
     {
@@ -43,6 +45,17 @@ public class GameManager : MonoBehaviour
             // Update score
             score += 5 * Time.deltaTime;
             canvasManager.GetField("Score").text.text = GetScore().ToString(); // UI
+        }
+        else if (!Shutters.Instance.LoadingScene && gameOverShowed)
+        {
+            foreach (Touch touch in Input.touches)
+            {
+                if (touch.phase == TouchPhase.Began)
+                {
+                    Shutters.Instance.LoadSceneWithShutters("Menu");
+                    return;
+                }
+            }
         }
 
         Helper.cameraFollow.UpdateCamera();
@@ -89,6 +102,10 @@ public class GameManager : MonoBehaviour
                 planet.transform.localScale = Vector3.one * planet.radius;
                 growingPlanets = true; // at least one planet growing (sound!)
             }
+            else if (planet.Distance(snake.transform.position) > 24)
+            {
+                Destroy(planet.gameObject);
+            }
         }
 
         // Play sound
@@ -98,43 +115,57 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SpawnPlanet()
+    private void SpawnPlanets()
     {
-        if (!playing) return;
+        Vector2 position = snake.transform.position; // 13 - 8 = 5
 
-        Vector3 position = snake.transform.position;
-        float ahead = 10;
-        position += snake.transform.up * ahead;
+        float radian = 0;
+        while (radian < Mathf.PI * 2)
+        {
+            float radius = Random.Range(9F, 13F);
+            Vector2 relative = new Vector2(Mathf.Cos(radian) * radius, Mathf.Sin(radian) * radius);
+            if (Mathf.Abs(relative.x) < Helper.worldWidth + 1 && Mathf.Abs(relative.y) < Helper.worldHeight + 1) continue;
+            SpawnPlanet(position + relative);
+            radian += Random.Range(0F, Mathf.PI / 9F);
+        }
+    }
+
+    private void SpawnPlanet(Vector2 position)
+    {
+        int randomChance = Random.Range(0, 100);
 
         if (!firstSpawned)
         {
-            // Position
-            bool leftOrRight = Random.Range(-1F, 1F) < 0;
-            position += snake.transform.right * (leftOrRight ? -1 : 1) * Random.Range(2F, 2.5F);
-
-            // Popup text
-            Popup prfb = Instantiate(prefabTipText, canvasManager.GetPage("Game").obj.transform);
-            prfb.position = position + Vector3.down * 1.5F;
-            prfb.GetComponent<Text>().text = assetManager.GetLocalizedString("tip_text");
-
-            // Popup image
-            prfb = Instantiate(prefabTipImage, canvasManager.GetPage("Game").obj.transform);
-            prfb.position = position;
-
-            firstSpawned = true;
-        }
-        else
-        {
-            position += snake.transform.right * Random.Range(-6F, 6F);
-        }
-
-        // Make sure we are not nearby another planet.
-        foreach (Planet planet in FindObjectsOfType<Planet>())
-        {
-            if (Vector3.Distance(planet.transform.position, position) < 2.5F)
+            if (position.y < 0 || Mathf.Abs(position.x) < 2.0 || Mathf.Abs(position.x) > 3.5)
             {
                 return;
             }
+
+             // Popup text
+            Popup text = Instantiate(prefabTipText, canvasManager.GetPage("Game").obj.transform);
+            text.position = position + Vector2.down * 1.5F;
+            text.GetComponent<Text>().text = assetManager.GetLocalizedString("tip_text");
+
+            // Popup image
+            Popup outline = Instantiate(prefabTipImage, canvasManager.GetPage("Game").obj.transform);
+            outline.position = position;
+
+            firstSpawned = true;
+            randomChance = 100;
+        }
+
+        foreach (GameObject go in Helper.objects)
+        {
+            if (Vector2.Distance(position, go.transform.position) < 3.0F)
+            {
+                return;
+            }
+        }
+
+        if (randomChance < 10) { // 20 percent chance planet = poweurp
+            Powerup powerup = prefabPowerups[Random.Range(0, prefabPowerups.Length)];
+            Instantiate(powerup, position, Quaternion.identity);
+            return;
         }
 
         Instantiate(prefabPlanet, position, Quaternion.identity);
@@ -166,7 +197,7 @@ public class GameManager : MonoBehaviour
         follow.transform.rotation = Quaternion.identity;
         follow.SetFollowing(snake.transform);
 
-        InvokeRepeating("SpawnPlanet", 0F, planetSpawnDelay);
+        InvokeRepeating("SpawnPlanets", 0F, planetSpawnDelay);
 
         // Start the game.
         score = 0;
@@ -179,32 +210,32 @@ public class GameManager : MonoBehaviour
         // Stop the game
         playing = false;
 
-        int score = GetScore();
-        Prefs.SetInt("last_score_points", score);
-        if (score > Prefs.GetInt("best_score_points", 0)) // Update high score
+        // Update scores
+        int scoreEarned = GetScore();
+        Prefs.lastScore = scoreEarned;
+        Prefs.credits += scoreEarned; // Give credits
+        if (scoreEarned > Prefs.bestScore)
         {
-            Prefs.SetInt("best_score_points", score);
+            Prefs.bestScore = scoreEarned;
         }
 
         UpdateUI(); // Update fields
-        CancelInvoke("SpawnPlanet"); // Stop spawning
+        CancelInvoke("SpawnPlanets"); // Stop spawning
         Invoke("ShowGameOver", 1F); // Show UI in 1s
     }
 
     private void ShowGameOver()
     {
         canvasManager.CloseAllPages(); // Close all pages
-        canvasManager.ShowPage("Menu"); // Open game over
+        canvasManager.ShowPage("GameOver"); // Open game over
+        gameOverShowed = true;
     }
 
     private void UpdateUI()
     {
-        int bestScore = Prefs.GetInt("best_score_points", 0);
-        int lastScore = Prefs.GetInt("last_score_points", 0);
-
         // Update game over canvas
-        canvasManager.GetField("Last Score").text.text = lastScore.ToString();
-        canvasManager.GetField("Best Score").text.text = bestScore.ToString();
+        canvasManager.GetField("Last Score").text.text = Prefs.lastScore.ToString();
+        canvasManager.GetField("Best Score").text.text = Prefs.bestScore.ToString();
     }
 
     private int ComparePlanets(Planet a, Planet b)
@@ -223,11 +254,12 @@ public class GameManager : MonoBehaviour
     {
         // Initialize variables
         instance = this;
+        firstSpawned = false;
         assetManager = AssetManager.Instance;
         canvasManager = CanvasManager.Instance;
 
-        assetManager.PlayMusic("Music");
-        assetManager.UpdateAudio();
         UpdateUI(); // Update UI (one time)
+
+        StartGame();
     }
 }

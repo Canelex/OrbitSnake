@@ -8,11 +8,18 @@ public class Shutters : Singleton<Shutters>
     [Range(0, 1F)]
     public float percent;
     private Texture2D texture;
+    private bool loadingScene;
+
+    public bool LoadingScene
+    {
+        get {return loadingScene;}
+        set {loadingScene = value;}
+    }
 
     public void OnGUI()
     {
         Camera camera = Camera.main;
-        float width = camera.pixelWidth * percent / 2;
+        float width = Mathf.Ceil(camera.pixelWidth * percent / 2F);
         GUI.DrawTexture(new Rect(0, 0, width, camera.pixelHeight), texture);
         GUI.DrawTexture(new Rect(camera.pixelWidth - width, 0, width, camera.pixelHeight), texture);
     }
@@ -22,7 +29,7 @@ public class Shutters : Singleton<Shutters>
         this.percent = percent;
     }
 
-    public IEnumerator Open(float time)
+    public IEnumerator OpenShutters(float time)
     {
         percent = 1;
 
@@ -35,7 +42,7 @@ public class Shutters : Singleton<Shutters>
         percent = 0;
     }
 
-    public IEnumerator Close(float time)
+    public IEnumerator CloseShutters(float time)
     {
         percent = 0;
 
@@ -48,24 +55,28 @@ public class Shutters : Singleton<Shutters>
         percent = 1;
     }
 
-    private IEnumerator Scene(string scene)
+    private IEnumerator GoToScene(string scene)
     {
-        yield return Close(0.5F);
+        LoadingScene = true;
+        yield return CloseShutters(0.5F);
         SceneManager.LoadScene(scene);
-        yield return Open(0.5F);
+        yield return OpenShutters(0.5F);
+        LoadingScene = false;
     }
 
-    public void LoadScene(string scene)
+    public void LoadSceneWithShutters(string scene)
     {
-        StartCoroutine(Scene(scene));
+        StartCoroutine(GoToScene(scene));
     }
 
-    public void Init()
+    public new void Init()
     {
         texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
         texture.SetPixel(0, 0, Color.black);
         texture.wrapMode = TextureWrapMode.Repeat;
         texture.filterMode = FilterMode.Point;
         texture.Apply();
+        IsReady = true;
+        Debug.Log("Finished initializing Shutters.");
     }
 }

@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 114117453734090436}
   m_Layer: 0
   m_Name: Planet
-  m_TagString: Planet
+  m_TagString: SpaceObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,8 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1
-  radiusPress: 1.5
-  kConst: 0.25
+  radiusPress: 1.25
+  kConst: 0.15
   sprite: {fileID: 212606783805544220}
   details: {fileID: 212021201049241884}
   mask: {fileID: 331213901677010330}

@@ -59,6 +59,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -131,11 +132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5827b44513ecc944bb232e3d283b35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  after: {fileID: 0}
+  before: {fileID: 0}
   velocity: 3
   timeNodeGrow: 5
   maxNodes: 12
-  nodeGap: 0.32
+  nodes: 0
+  nodeGap: 0.31
   prefabNode: {fileID: 5735857272962512853, guid: cd7bdb17714b35341b4f08bb30ebc10d,
-    type: 3}
-  prefabEffect: {fileID: 8083809019249250611, guid: 91d120a9353a34a4abe6093b42ba843c,
     type: 3}

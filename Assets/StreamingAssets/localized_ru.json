@@ -1,20 +1,69 @@
 {
     "items": [
-        {
-            "key": "play_button",
-            "value": "играть"
-        },
+		{
+			"key": "play_planet_button",
+			"value": "Играть (Нажмите)"
+		},
+		{
+			"key": "shop_planet_button",
+			"value": "Магазин (Нажмите)"
+		},
+		{
+			"key": "scores_planet_button",
+			"value": "Результаты (Нажмите)"
+		},
         {
             "key": "last_score",
-            "value": "прошлой"
+            "value": "Прошлой"
         },
         {
             "key": "best_score",
-            "value": "лучший"
+            "value": "Лучший"
         },
         {
             "key": "tip_text",
-            "value": "нажмите"
-        }
+            "value": "Нажми и держи"
+        },
+		{
+			"key": "home_planet_button",
+			"value": "Домой (Нажмите)"
+		},
+		{
+			"key": "purchase_skin_button",
+			"value": "покупка"
+		},
+		{
+			"key": "cancel_button",
+			"value": "отменить"
+		},
+		{
+			"key": "purchase_skin_text",
+			"value": "Купить змею?"
+		},
+		{
+			"key": "default_text",
+			"value": "дефолт"
+		},
+		{
+			"key": "small_ticket_text",
+			"value": "скидка в 40"
+		},
+		{
+			"key": "small_ticket_button",
+			"value": "$2.99 USD"
+		},
+		{
+			"key": "big_ticket_text",
+			"value": "скидка в 80"
+		},
+		{
+			"key": "big_ticket_button",
+			"value": "$4.99 USD"
+		},
+		{
+			"key": "active_button",
+			"value": "активный"
+		}
+		
     ]
 }

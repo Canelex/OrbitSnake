@@ -1,0 +1,69 @@
+{
+    "items": [
+		{
+			"key": "play_planet_button",
+			"value": "Jugar (presiona)"
+		},
+		{
+			"key": "shop_planet_button",
+			"value": "Tienda (presiona)"
+		},
+		{
+			"key": "scores_planet_button",
+			"value": "Puntos (presiona)"
+		},
+        {
+            "key": "last_score",
+            "value": "Previo"
+        },
+        {
+            "key": "best_score",
+            "value": "Mejor"
+        },
+        {
+            "key": "tip_text",
+            "value": "Toque y mantenga"
+        },
+		{
+			"key": "home_planet_button",
+			"value": "Casa (presiona)"
+		},
+		{
+			"key": "purchase_skin_button",
+			"value": "Comprar"
+		},
+		{
+			"key": "cancel_button",
+			"value": "Cancelar"
+		},
+		{
+			"key": "purchase_skin_text",
+			"value": "Compra serpiente?"
+		},
+		{
+			"key": "default_text",
+			"value": "Normal"
+		},
+		{
+			"key": "small_ticket_text",
+			"value": "40% de descuento"
+		},
+		{
+			"key": "small_ticket_button",
+			"value": "$2.99 USD"
+		},
+		{
+			"key": "big_ticket_text",
+			"value": "80% de descuento"
+		},
+		{
+			"key": "big_ticket_button",
+			"value": "$4.99 USD"
+		},
+		{
+			"key": "active_button",
+			"value": "Activo"
+		}
+		
+    ]
+}
